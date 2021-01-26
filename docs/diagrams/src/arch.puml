@@ -1,0 +1,24 @@
+@startuml AAD Example
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+System_Boundary(weba, "Website A") {
+    Container(frontend, "Frontend", "Cookie Auth", "")
+    Container(bff, "Backend For Frontend", "OAuth", "")
+}
+
+System(webb, "Website B", "Microsoft Identity")
+
+System_Boundary(apia, "API A") {
+    Container(webapia, "API A", " ")
+    Container(scheduler, "Job Scheduler", " ")
+}
+
+System(apib, "API B", " ")
+
+Rel(frontend, bff, " ")
+Rel(bff, webapia, "HTTP")
+Rel(webb, webapia, "HTTP")
+Rel(webapia, apib, "On behalf of")
+Rel(scheduler, apib, "Client credentials")
+
+@enduml
