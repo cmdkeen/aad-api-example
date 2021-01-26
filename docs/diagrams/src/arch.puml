@@ -6,18 +6,18 @@ System_Boundary(weba, "Website A") {
     Container(bff, "Backend For Frontend", "OAuth", "")
 }
 
-System(webb, "Website B", "Microsoft Identity")
+System(webb, "Website B", "SPA")
 
 System_Boundary(apia, "API A") {
-    Container(webapia, "API A", " ")
-    Container(scheduler, "Job Scheduler", " ")
+    Container(webapia, "API A", ".Net Core API")
+    Container(scheduler, "Job Scheduler", ".Net Core/Hangfire")
 }
 
-System(apib, "API B", " ")
+System(apib, "API B", ".Net Core API")
 
-Rel(frontend, bff, " ")
-Rel(bff, webapia, "HTTP")
-Rel(webb, webapia, "HTTP")
+Rel(frontend, bff, "Open ID Connect Sign In")
+Rel(bff, webapia, "Authorization code flow")
+Rel(webb, webapia, "Authorization code flow (with PKCE)")
 Rel(webapia, apib, "On behalf of")
 Rel(scheduler, apib, "Client credentials")
 
