@@ -32,6 +32,15 @@ namespace ApiA
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
 
+            services.AddCors(options => {
+               options.AddDefaultPolicy(builder => {
+                   builder.WithOrigins("http://localhost:3000")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+               });
+            });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -52,6 +61,7 @@ namespace ApiA
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors();
 
             app.UseAuthentication();
             app.UseAuthorization();

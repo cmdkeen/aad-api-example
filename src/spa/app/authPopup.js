@@ -112,4 +112,25 @@ function readMail() {
         });
 }
 
+function callApiA() {
+    getTokenPopup({ scopes: ["api://fc5c3c4d-95cb-4624-ae76-50c8dd56bd4f/access_as_user"] })
+        .then(response => {
+            var headers = new Headers();
+            var bearer = "Bearer " + response.accessToken;
+            headers.append("Authorization", bearer);
+            var options = {
+                method: "GET",
+                headers: headers
+            };
+
+            fetch("https://localhost:5005/WeatherForecast", options)
+                .then(response => response.json())
+                .then(response => console.log(response));
+        }).catch(error => {
+            console.error(error);
+        });
+}
+
+
+
 selectAccount();
