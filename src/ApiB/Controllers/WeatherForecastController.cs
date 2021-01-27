@@ -32,7 +32,7 @@ namespace ApiB.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
-            HttpContext.VerifyUserHasAnyAcceptedScope(scopeRequiredByApi);
+            HttpContext.ValidateAppRole("DaemonRole", "UserRole");
 
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
