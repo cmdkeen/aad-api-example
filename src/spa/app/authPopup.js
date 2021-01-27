@@ -125,12 +125,24 @@ function callApiA() {
 
             fetch("https://localhost:5005/WeatherForecast", options)
                 .then(response => response.json())
-                .then(response => console.log(response));
+                .then(response => updateWeather(response));
         }).catch(error => {
             console.error(error);
         });
 }
 
+function updateWeather(data) {
+    const profileDiv = document.getElementById("weather-div");
+    profileDiv.innerHTML = "";
+    const list = document.createElement("ul");
+    
+    data.map((d) => {
+        const listitem = document.createElement("li");
+        listitem.innerText = d.summary;
+        list.appendChild(listitem);
+    });
 
+    profileDiv.appendChild(list);
+}
 
 selectAccount();
