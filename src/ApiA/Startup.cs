@@ -1,18 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace ApiA
@@ -29,8 +20,19 @@ namespace ApiA
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
+            services.AddMicrosoftIdentityWebApiAuthentication(Configuration)
+                .EnableTokenAcquisitionToCallDownstreamApi()
+                    .AddDownstreamWebApi("APIB", Configuration.GetSection("APIB"))
+                .AddInMemoryTokenCaches();
+
+            services.AddCors(options => {
+               options.AddDefaultPolicy(builder => {
+                   builder.WithOrigins("http://localhost:3000")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
+               });
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -52,6 +54,7 @@ namespace ApiA
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors();
 
             app.UseAuthentication();
             app.UseAuthorization();
