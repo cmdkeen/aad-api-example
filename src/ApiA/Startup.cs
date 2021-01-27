@@ -29,7 +29,10 @@ namespace ApiA
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMicrosoftIdentityWebApiAuthentication(Configuration);
+            services.AddMicrosoftIdentityWebApiAuthentication(Configuration)
+                .EnableTokenAcquisitionToCallDownstreamApi()
+                    .AddDownstreamWebApi("APIB", Configuration.GetSection("APIB"))
+                .AddInMemoryTokenCaches();
 
             services.AddCors(options => {
                options.AddDefaultPolicy(builder => {
