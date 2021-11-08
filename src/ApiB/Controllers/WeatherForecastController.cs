@@ -21,7 +21,7 @@ namespace ApiB.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
-            HttpContext.ValidateAppRole("DaemonRole", "UserRole");
+            HttpContext.ValidateAppRole("ApiBTest");
 
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast

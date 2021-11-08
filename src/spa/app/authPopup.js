@@ -113,7 +113,7 @@ function readMail() {
 }
 
 function callApiA() {
-    getTokenPopup({ scopes: ["api://fc5c3c4d-95cb-4624-ae76-50c8dd56bd4f/access_as_user"] })
+    getTokenPopup({ scopes: ["api://f07a3c8e-3d7a-4ac7-ac1c-1baa9185295f/apiA"] })
         .then(response => {
             var headers = new Headers();
             var bearer = "Bearer " + response.accessToken;

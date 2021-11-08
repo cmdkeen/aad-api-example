@@ -18,7 +18,7 @@ namespace ApiA.Controllers
         private readonly IDownstreamWebApi _downstreamWebApi ;
 
         // The Web API will only accept tokens 1) for users, and 2) having the "access_as_user" scope for this API
-        static readonly string[] scopeRequiredByApi = new string[] { "access_as_user" };
+        static readonly string[] scopeRequiredByApi = new string[] { "apiA" };
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger, IDownstreamWebApi downstreamWebApi)
         {
